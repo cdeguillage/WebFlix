@@ -8,7 +8,7 @@ On veut créer un nouveau NetFlix.
 - Penser à la BDD.
 
 ## Pages :
-###--- LOT 1 ---
+### --- LOT 1 ---
 - Accueil -> Liste de films triés par catégorie.
 - Voir un film (movie_single.php?id=4) -> On veut voir un film.
 - Ajouter un film (movie_add.php) -> On peut ajouter un film dans la BDD.
