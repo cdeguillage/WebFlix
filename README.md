@@ -1,6 +1,6 @@
 # WebFlix
 
-##On veut créer un nouveau NetFlix.
+On veut créer un nouveau NetFlix.
 
 ##Projet :
 - Créer un dépôt GitHub.
