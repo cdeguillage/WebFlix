@@ -1,0 +1,126 @@
+body {
+    background-image: url("../img/background.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.page-title {
+    font-family: 'Alfa Slab One', cursive;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-bottom: 2px solid #e8e8e8;
+    background-color: rgba(255, 255, 255, 0.7);
+    color: #dc3545;
+    border-radius: 0 50% 0 0;
+    text-shadow: 2px 2px #000000;
+}
+
+.page-title-adm {
+    font-family: 'Alfa Slab One', cursive;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-bottom: 2px solid #e8e8e8;
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 0 50% 0 0;
+    text-shadow: 2px 2px #000000;
+}
+
+.stitle-redirection {
+    font-family: 'Alfa Slab One', cursive;
+    margin-top: 30px;
+    margin-bottom: 10px;
+    padding-top: 15px;
+    padding-left: 15px;
+    padding-bottom: 2px solid #e8e8e8;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #dc3545;
+    text-shadow: 2px 2px #000000;
+}
+
+.pizza-name {
+    font-family: 'Homemade Apple', cursive;
+    font-size: 1.5rem;
+}
+
+img {
+    z-index: 2015;
+}
+
+.card-transparance {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 20px 0 0 0;
+}
+
+.card-round {
+    border-radius: 0 0 20px 0;
+}
+
+.card-img-top-container {
+    overflow: hidden;
+    position: relative;
+}
+
+.card-img-top-zoom-effect {
+    transition: 0.5s;
+}
+
+.card-img-top-zoom-effect:hover {
+    cursor: pointer;
+    transform: scale(1.15);
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.card-price {
+    position: absolute;
+    top: 5px;
+    right: 4px;
+    margin: 10px;
+    width: 80px;
+    height: 42px;
+    border-radius: 60% 35% 60% 35%;
+    line-height: 45px;
+    
+    background: #dc3545;
+    color: #FFFFFF;
+    
+    font-family: 'Alfa Slab One', cursive;
+    font-size: 0.7rem;
+    text-align: center;
+
+    /* Ombre portée */
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+
+    z-index: 2050;
+}
+
+/* .card-price-cents {
+    vertical-align: top;
+    font-size: 0.6rem;
+} */
+
+textarea[name=description] {
+   resize: none;
+}
+
+
+/* Glyphicons */
+.mi-md-color {
+    color: #dc3545;
+}
+
+.mi-md-font-title {
+    font-size: 1.3rem;
+}
+
+.mi-md-font-contact {
+    font-size: 1rem;
+}
+
+.mi-md-font-color {
+    color: #dc3545;
+}

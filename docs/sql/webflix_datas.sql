@@ -1,0 +1,45 @@
+USE webflix;
+INSERT INTO Category
+    (name)
+VALUES
+    ('Action'),
+    ('Animation'),
+    ('Arts Martiaux'),
+    ('Aventure'),
+    ('Biopic'),
+    ('Bollywood'),
+    ('Classique'),
+    ('Comédie'),
+    ('Comédie dramatique'),
+    ('Comédie musicale'),
+    ('Concert'),
+    ('Dessin animé'),
+    ('Divers'),
+    ('Documentaire'),
+    ('Drama'),
+    ('Drame'),
+    ('Epouvante-horreur'),
+    ('Erotique'),
+    ('Espionnage'),
+    ('Expérimental'),
+    ('Famille'),
+    ('Fantastique'),
+    ('Guerre'),
+    ('Historique'),
+    ('Judiciaire'),
+    ('Médical'),
+    ('Movie night'),
+    ('Musical'),
+    ('Opera'),
+    ('Péplum'),
+    ('Policier'),
+    ('Romance'),
+    ('Science fiction'),
+    ('Show'),
+    ('Sport event'),
+    ('Survival, Science-fiction, Aventure'),
+    ('Thriller'),
+    ('Western');
+
+
+    
