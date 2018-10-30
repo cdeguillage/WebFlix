@@ -9,7 +9,22 @@
     require_once(__DIR__.'/partials/header.php');
 
     // BDD : On va chercher la liste des categories
-    $query = $db->query('SELECT c.*, (SELECT COUNT(1) FROM movie cm WHERE cm.category_id = c.id GROUP BY cm.category_id) AS count_movie FROM category c WHERE EXISTS(SELECT 1 FROM movie m WHERE m.category_id = c.id) ORDER BY c.name');
+    $query = $db->query('
+        SELECT c.*,
+               ( SELECT COUNT(1)
+                   FROM movie cm
+                  WHERE cm.category_id = c.id
+                    AND cm.visible <> 0
+               GROUP BY cm.category_id
+               ) AS count_movie
+          FROM category c
+         WHERE EXISTS( SELECT 1
+                         FROM movie m
+                        WHERE m.category_id = c.id
+                          AND m.visible <> 0
+                     )
+      ORDER BY c.name
+    ');
     $categories = $query->fetchAll();
 ?>
 
@@ -36,7 +51,16 @@
                 <div class="col-12"><div class="text-white category-title" id="<?php echo $category['name']; ?>"><?php echo $category['name']; ?></div></div>
                 <?php
                     // BDD : On va chercher la liste des movies
-                    $query = $db->prepare('SELECT m.*, c.name FROM `movie` m, `category` c WHERE m.category_id = c.id AND c.id = :category_id ORDER BY c.name, m.title');
+                    $query = $db->prepare('
+                                SELECT m.*,
+                                       c.name
+                                  FROM `movie` m,
+                                       `category` c
+                                 WHERE m.category_id = c.id
+                                   AND m.visible <> 0
+                                   AND c.id = :category_id
+                              ORDER BY c.name, m.title
+                    ');
                     $query->bindValue(':category_id', $category['id'], PDO::PARAM_STR);
                     $query->execute();
                     $movies = $query->fetchAll();
@@ -46,12 +70,17 @@
                             <div class="mb-4">
 
                                 <div class="card-img-top-container card-transparance">
-                                    <img class="card-img" src="<?php echo $movie['cover'] === NULL ? 'assets/img/cover/no-cover.png' : $movie['cover']; ?>" alt=<?php echo $movie['title']; ?>>
+                                    <a href="<?= 'movie_single.php?id='.$movie['id']; ?>"><img class="card-img" src="<?php echo $movie['cover'] === NULL ? 'assets/img/cover/no-cover.png' : $movie['cover']; ?>" alt=<?php echo $movie['title']; ?>></a>
+                                    <div class="camera"><i class="fas fa-video"></i></div>
                                 </div>
                                 
                                 <div class="card-body bg-white">
                                     <h6 class="card-title text-center movie-name min-size"><?php echo $movie['title']; ?></h6>
-                                    <a href="<?= 'movie_single.php?id='.$movie['id']; ?>" class="btn btn-primary btn-sm btn-block">Commander</a>
+                                    <div class="btn-block text-center">
+                                        <a href="<?= 'movie_basket_add.php?id='.$movie['id']; ?>" class="btn btn-primary btn-sm" alt="Acheter"><i class="fas fa-shopping-basket"></i></a>
+                                        <a href="<?= 'movie_edit.php?id='.$movie['id']; ?>" class="btn btn-primary btn-sm" alt="Editer"><i class="fas fa-edit"></i></a>
+                                        <a href="<?= 'movie_delete.php?id='.$movie['id']; ?>" class="btn btn-danger btn-sm" alt="Supprimer"><i class="far fa-minus-square"></i></a>
+                                    </div>
                                 </div>
 
                             </div>

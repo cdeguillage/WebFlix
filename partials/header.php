@@ -38,13 +38,12 @@
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <!-- Fonts / Icons -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.2/css/all.css" integrity="sha384-/rXc/GQVaYpyDdyxK+ecHPVYJSN9bmVFBvjA/9eOB+pb3F2w2N6fc5qB9Ew5yIns" crossorigin="anonymous">
+
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href="assets/css/starter-template.css">
     <link rel="stylesheet" href="assets/css/style.css">
-
-
-    <!-- Datetimepicker -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/> -->
 
     <!-- JS LOAD -->
     <script src="assets/js/script_load.js"></script>
@@ -53,7 +52,7 @@
   </head>
 
   <body>
-
+  
     <nav class="navbar navbar-expand-md navbar-dark <?php echo $admin === false ? 'bg-primary ' : 'bg-success '; ?>fixed-top">
 
       <a class="navbar-brand" href="index.php"><?=$siteName;?></a>

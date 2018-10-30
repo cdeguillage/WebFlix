@@ -64,6 +64,24 @@ a {
     z-index: 0;
 }
 
+.camera {
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    margin: 10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 35% 35% 35% 35%;
+    
+    background-color: rgba(0, 123, 255, 0.5);
+    color: #FFFFFF;
+    
+    font-size: 1.3rem;
+    text-align: center;
+
+    z-index: 2050;
+}
+
 .movie-name {
     font-family: 'Abril Fatface', cursive;
     font-size: 1rem;
