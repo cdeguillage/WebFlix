@@ -13,7 +13,7 @@
     require_once(__DIR__.'/partials/header.php');
 
     // Traitement du formulaire
-    $title = $description = $video_link = $cover = $released_at = $category_id = null;
+    $title = $description = $video_link = $cover = $released_at = $category = $category_id = null;
 
     // Liste des catégories
     $query = $db->prepare('SELECT * FROM `category`');
@@ -25,7 +25,7 @@
         $title = $_POST['title'];
         $description = $_POST['description'];
         $video_link = $_POST['video_link'];
-        $cover = $_POST['cover'];
+        $cover = $_FILES['cover'];
         $released_at = $_POST['released_at'];
         $category_id = $_POST['category_id'];
 
@@ -50,22 +50,22 @@
             $errors['video_link'] = 'Le lien vers la video n\'est pas valide';
         }
         // Vérifier la catégorie
-        $query = $db->prepare('SELECT * FROM `category` WHERE `name` = :category');
-        $query->bindValue(':category', $category, PDO::PARAM_STR);
+        $query = $db->prepare('SELECT * FROM `category` WHERE `id` = :category_id');
+        $query->bindValue(':category_id', $category_id, PDO::PARAM_STR);
         $query->execute();
         $category_query = $query->fetch();
 
-        if (empty($category) || !in_array($category, $category_query))
+        if (empty($category_id) || !in_array($category_id, $category_query))
         {
-            $errors['category'] = 'La catégorie n\'est pas valide';
+            $errors['category_id'] = 'La catégorie n\'est pas valide';
         }
 
         // Upload de le la pochette
-        $file = $movie['tmp_file']; // Emplacement du fichier temporaire
-        $fileName = "assets/img/cover/".$movie['name'];
+        $file = $cover['tmp_name']; // Emplacement du fichier temporaire
+        $fileName = "assets/img/cover/".$cover['name'];
         $finfo = finfo_open(FILEINFO_MIME_TYPE);   // Permet d'ouvrir un fichier
         $mimeType = finfo_file($finfo, $file);
-        $allowedExtensions = ['video/mp4', 'video/avi'];
+        $allowedExtensions = ['image/jpg', 'image/jpeg', 'image/png'];
         // Si l'extension n'est pas autorisée, il y a une erreur
         if (!in_array($mimeType, $allowedExtensions))
         {
@@ -73,7 +73,7 @@
         }
 
         // On vérifie la taille de le la pochette (en Ko) - 3Mo maxi
-        if ($movie['size'] / 1024 > 3096)
+        if ($cover['size'] / 1024 > 3096)
         {
             $errors['size'] = 'La pochette est trop lourde';
         }
@@ -92,8 +92,8 @@
             ');
             $query->bindValue(':title', $title, PDO::PARAM_STR);
             $query->bindValue(':description', $description, PDO::PARAM_STR);
-            $query->bindValue(':video_link', $fileName, PDO::PARAM_STR);
-            $query->bindValue(':cover', $cover, PDO::PARAM_STR);
+            $query->bindValue(':video_link', $video_link, PDO::PARAM_STR);
+            $query->bindValue(':cover', $fileName, PDO::PARAM_STR);
             $query->bindValue(':released_at', $released_at, PDO::PARAM_STR);
             $query->bindValue(':category_id', $category_id, PDO::PARAM_STR);
             
@@ -135,13 +135,20 @@
                                 echo '</div>';
                             } ?>
 
+
+
                             <label for="released_at">Date de sortie :</label>
-                            <input type="text" name="released_at" id="released_at" class="form-control <?php echo isset($errors['released_at']) ? 'is-invalid' : null; ?>" value="<?php echo $released_at; ?>">
+                            <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1"><i class="material-icons mi-md-color">calendar_today</i></span>
+                            </div>
+                            <input type="date" name="released_at" id="released_at" class="form-control <?php echo isset($errors['released_at']) ? 'is-invalid' : null; ?>" value="<?php echo $released_at; ?>">
                             <?php if (isset($errors['released_at'])) {
                                 echo '<div class="invalid-feedback">';
                                 echo $errors['released_at'];
                                 echo '</div>';
                             } ?>
+                            </div>
 
                             <label for="video_link">Lien du film :</label>
                             <input type="text"  name="video_link" id="video_link" class="form-control <?php echo isset($errors['video_link']) ? 'is-invalid' : null; ?>" value="<?php echo $video_link; ?>">
@@ -152,7 +159,7 @@
                             } ?>
 
                             <label for="cover">Pochette :</label>
-                            <input type="file" name="cover" id="cover" class="form-control" value="<?php echo empty($cover) ? '' : $cover; ?>">
+                            <input type="file" name="cover" id="cover" class="form-control" value="<?php echo empty($cover) ? '' : $cover['name']; ?>">
                             <?php if (isset($errors['cover'])) {
                                 echo '<div class="invalid-feedback">';
                                 echo $errors['cover'];
@@ -168,7 +175,7 @@
                             <select name="category_id" id="category_id" class="form-control <?php echo isset($errors['category_id']) ? 'is-invalid' : null; ?>">
                                 <option value="">Choisir la catégorie</option>
                                 <?php foreach($category_array as $category_row) { ?>
-                                    <option <?php echo ($category === $category_row['name'] ? 'selected' : ''); ?>value="<?php echo $category_row['id']; ?>" selected><?php echo $category_row['name']; ?></option>
+                                    <option <?php echo ($category_id === $category_row['id'] ? 'selected' : ''); ?> value="<?php echo $category_row['id']; ?>" selected><?php echo $category_row['name']; ?></option>
                                 <?php } ?>
                             </select>
                             <?php if (isset($errors['category_id'])) {
@@ -178,7 +185,7 @@
                             } ?>
 
                             <label for="description">Description :</label>
-                            <textarea name="description" id="description" class="form-control <?php echo isset($errors['description']) ? 'is-invalid' : null; ?>" rows="7" minlength="10" maxlength="45"><?php echo $description; ?></textarea>
+                            <textarea name="description" id="description" class="form-control <?php echo isset($errors['description']) ? 'is-invalid' : null; ?>" rows="7" minlength="10" maxlength="255"><?php echo $description; ?></textarea>
                             <?php if (isset($errors['description'])) {
                                 echo '<div class="invalid-feedback">';
                                 echo $errors['description'];

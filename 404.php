@@ -14,7 +14,7 @@
         </div>
     </main>
     <!-- Redirection automatique vers la liste des pizzas -->
-    <script>redirection_timer('pizza_list.php', 5000);</script>
+    <script>redirection_timer('index.php', 5000);</script>
 <?php
     require_once(__DIR__.'/partials/footer.php');
     die();

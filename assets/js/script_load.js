@@ -6,5 +6,5 @@ function redirection_timer(page, timing) {
     }, timing);
 
     return page;
-
 }
+
