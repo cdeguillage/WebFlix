@@ -8,8 +8,11 @@
     // Header du site web
     require_once(__DIR__.'/partials/header.php');
 
+    // Récupération du filtre page et prération filtre SQL
+    $filtre_query = (!empty($_GET)) ? "AND c.id = ".$_GET['filtre'] : "";
+
     // BDD : On va chercher la liste des categories
-    $query = $db->query('
+    $query = $db->query(str_replace('#FILTRE_QUERY#', $filtre_query, '
         SELECT c.*,
                ( SELECT COUNT(1)
                    FROM movie cm
@@ -23,8 +26,9 @@
                         WHERE m.category_id = c.id
                           AND m.visible <> 0
                      )
+                #FILTRE_QUERY#
       ORDER BY c.name
-    ');
+    '));
     $categories = $query->fetchAll();
 ?>
 
@@ -32,9 +36,13 @@
     <div class="row fixed-menu">
         <div class="col-2">
             <ul class="list-group">
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <a href="index.php">Toutes catégories</a>
+                        <span class="badge badge-primary badge-pill">*</span>
+                    </li>
                 <?php foreach($categories as $category) { ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        <a href="#<?php echo $category['name']; ?>"><?php echo $category['name']; ?></a>
+                        <a href="<?php echo 'index.php?filtre='.$category['id']; ?>"><?php echo $category['name']; ?></a>
                         <span class="badge badge-primary badge-pill"><?php echo $category['count_movie']; ?></span>
                     </li>
                 <?php } ?>
