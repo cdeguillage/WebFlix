@@ -5,6 +5,10 @@
   require_once(__DIR__.'/../config/config.php');
   // Connection à la base de données
   require_once(__DIR__.'/../config/database.php');
+  // Inclusion du fichier user
+  require_once(__DIR__.'/../functions/user.php');
+  // Base de données - Functions
+  require_once(__DIR__.'/../config/database_functions.php');
 ?>
 
 <!doctype html>
@@ -52,8 +56,11 @@
   </head>
 
   <body>
-  
-    <nav class="navbar navbar-expand-md navbar-dark <?php echo $admin === false ? 'bg-primary ' : 'bg-success '; ?>fixed-top">
+
+    <!-- Test de connection -->
+    <?php $user = isLogged(); ?>
+
+    <nav class="navbar navbar-expand-md fixed-top navbar-dark <?php echo $admin === false ? 'bg-primary ' : 'bg-success '; ?>">
 
       <a class="navbar-brand" href="index.php"><?=$siteName;?></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-webflix">
@@ -65,10 +72,22 @@
           <li class="nav-item <?php echo $currentPageUrl === 'index' ? 'active' : ''; ?>">
             <a class="nav-link" href="index.php">Gallerie</a>
           </li>
+          <!-- Ajouter un film si l'utilisateur est connecté -->
+          <?php if ($user) { ?>
           <li class="nav-item <?php echo $currentPageUrl === 'movie_add' ? 'active' : ''; ?>">
             <a class="nav-link" href="movie_add.php">Ajouter un film</a>
           </li>
+          <?php } ?>
+        </ul>
+        <ul class="navbar-nav">
+          <!-- Gérer l'utilisateur -->
+          <?php if ($user) { ?>
+            <strong class="mr-3 text-white">Hello <?= $user['username']; ?> !</strong>
+            <a class="btn btn-outline-light mr-3" href="logout.php">Se déconnecter</a>
+          <?php } else { ?>
+            <a class="btn btn-outline-light mr-3" href="register.php">S'inscrire</a>
+            <a class="btn btn-outline-light mr-3" href="login.php">Se connecter</a>
+          <?php } ?>
         </ul>
       </div>
-
     </nav>

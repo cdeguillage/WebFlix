@@ -175,7 +175,7 @@
                             <select name="category_id" id="category_id" class="form-control <?php echo isset($errors['category_id']) ? 'is-invalid' : null; ?>">
                                 <option value="">Choisir la catégorie</option>
                                 <?php foreach($category_array as $category_row) { ?>
-                                    <option <?php echo ($category_id === $category_row['id'] ? 'selected' : ''); ?> value="<?php echo $category_row['id']; ?>" selected><?php echo $category_row['name']; ?></option>
+                                    <option <?php echo ($category_id === $category_row['id'] ? 'selected' : ''); ?> value="<?php echo $category_row['id']; ?>"><?php echo $category_row['name']; ?></option>
                                 <?php } ?>
                             </select>
                             <?php if (isset($errors['category_id'])) {

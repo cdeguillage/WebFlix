@@ -118,7 +118,7 @@
 ?>
     <main class="container">
 
-        <h1 class="text-success page-title-adm"><?= $currentPageTitle ?></h1>
+        <h1 class="text-success page-title"><?= $currentPageTitle ?></h1>
 
         <?php if (isset($success) && $success) { ?>
             <div class="alert alert-success alert-dismissible fade show">

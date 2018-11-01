@@ -8,28 +8,9 @@
     // Header du site web
     require_once(__DIR__.'/partials/header.php');
 
-    // Récupération du filtre page et prération filtre SQL
-    $filtre_query = (!empty($_GET)) ? "AND c.id = ".$_GET['filtre'] : "";
-
-    // BDD : On va chercher la liste des categories
-    $query = $db->query(str_replace('#FILTRE_QUERY#', $filtre_query, '
-        SELECT c.*,
-               ( SELECT COUNT(1)
-                   FROM movie cm
-                  WHERE cm.category_id = c.id
-                    AND cm.visible <> 0
-               GROUP BY cm.category_id
-               ) AS count_movie
-          FROM category c
-         WHERE EXISTS( SELECT 1
-                         FROM movie m
-                        WHERE m.category_id = c.id
-                          AND m.visible <> 0
-                     )
-                #FILTRE_QUERY#
-      ORDER BY c.name
-    '));
-    $categories = $query->fetchAll();
+    // Récupération du filtre page et filtre category_id
+    $filtre = (!empty($_GET)) ? $_GET['filtre'] : null;
+    $categories = getCategoryFilter($filtre);
 ?>
 
     <!-- Menu fixe / Catégories -->
@@ -38,7 +19,7 @@
             <ul class="list-group">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <a href="index.php">Toutes catégories</a>
-                        <span class="badge badge-primary badge-pill">*</span>
+                        <!-- <span class="badge badge-primary badge-pill">*</span> -->
                     </li>
                 <?php foreach($categories as $category) { ?>
                     <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -85,9 +66,10 @@
                                 <div class="card-body bg-white">
                                     <h6 class="card-title text-center movie-name min-size"><?php echo $movie['title']; ?></h6>
                                     <div class="btn-block text-center">
-                                        <a href="<?= 'movie_basket_add.php?id='.$movie['id']; ?>" class="btn btn-primary btn-sm" alt="Acheter"><i class="fas fa-shopping-basket"></i></a>
-                                        <a href="<?= 'movie_edit.php?id='.$movie['id']; ?>" class="btn btn-primary btn-sm" alt="Editer"><i class="fas fa-edit"></i></a>
-                                        <a href="<?= 'movie_delete.php?id='.$movie['id']; ?>" class="btn btn-danger btn-sm" alt="Supprimer"><i class="far fa-minus-square"></i></a>
+                                        <?php if ($user) { ?>
+                                            <a href="<?= 'movie_edit.php?id='.$movie['id']; ?>" class="btn btn-primary btn-sm" alt="Editer"><i class="fas fa-edit"></i></a>
+                                            <a href="<?= 'movie_delete.php?id='.$movie['id']; ?>" class="btn btn-danger btn-sm" alt="Supprimer"><i class="far fa-minus-square"></i></a>
+                                        <?php } ?>
                                     </div>
                                 </div>
 
